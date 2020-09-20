@@ -22,6 +22,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import weka.core.Instances;
@@ -44,22 +47,25 @@ public class SimpleNet implements Serializable {
         setLinksData();
     }
 
-    public void trainNet(DataSet dataSet, String clasifier, String clusterer, int numClusters, boolean isParallel) {
+    public void trainNet(DataSet dataSet, String clasifier, String clusterer, int numClusters, int numThreads) {
+        long startTime=System.currentTimeMillis();
         generateNet(dataSet);
         try {
-            trainLinks(clusterer, numClusters, isParallel);
-            trainEvents(clasifier, isParallel);
+            trainLinks(clusterer, numClusters, numThreads);
+            trainEvents(clasifier, numThreads);
         } catch (Exception ex) {
             Logger.getLogger(SimpleNet.class.getName()).log(Level.SEVERE, null, ex);
         }
+        long endTime=System.currentTimeMillis();
+        System.out.println("Time to generate and train the net(s): "+(endTime-startTime)/1000);
     }
 
-    private void trainLinks(String model, int numClusters, boolean isParallel) throws Exception {
-        if (isParallel == true) {
-            Thread threads[] = new Thread[links.size()];
+    private void trainLinks(String model, int numClusters, int numThreads) throws Exception {
+        if (numThreads>1) {
+            ExecutorService pool = Executors.newFixedThreadPool(numThreads);
             for (int i = 0; i < links.size(); i++) {
                 final int final_i = i;
-                threads[i] = new Thread(new Runnable() {
+                pool.execute(new Runnable() {
                     @Override
                     public void run() {
                         System.out.println("Clustering link: " + links.get(final_i).name);
@@ -70,10 +76,11 @@ public class SimpleNet implements Serializable {
                         }
                     }
                 });
-                threads[i].start();
             }
-            for (int i = 0; i < links.size(); i++) {
-                threads[i].join();
+            pool.shutdown();
+            try {
+                pool.awaitTermination(Long.MAX_VALUE, TimeUnit.HOURS);
+            } catch (InterruptedException e) {
             }
         } else {
             for (int i = 0; i < links.size(); i++) {
@@ -83,12 +90,12 @@ public class SimpleNet implements Serializable {
         }
     }
 
-    private void trainEvents(String model, boolean isParallel) throws Exception {
-        if (isParallel == true) {
-            Thread threads[] = new Thread[links.size()];
+    private void trainEvents(String model, int numThreads) throws Exception {
+        if (numThreads>1) {
+            ExecutorService pool = Executors.newFixedThreadPool(numThreads);
             for (int i = 0; i < events.size(); i++) {
                 final int final_i = i;
-                threads[i] = new Thread(new Runnable() {
+                pool.execute(new Runnable() {
                     @Override
                     public void run() {
                         if (!events.get(final_i).name.equals("Start") && !events.get(final_i).name.equals("End")) {
@@ -101,10 +108,11 @@ public class SimpleNet implements Serializable {
                         }
                     }
                 });
-                threads[i].start();
             }
-            for (int i = 0; i < events.size(); i++) {
-                threads[i].join();
+            pool.shutdown();
+            try {
+                pool.awaitTermination(Long.MAX_VALUE, TimeUnit.HOURS);
+            } catch (InterruptedException e) {
             }
         } else {
             for (int i = 0; i < events.size(); i++) {

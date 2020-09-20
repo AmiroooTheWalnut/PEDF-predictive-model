@@ -7,6 +7,7 @@ import org.deeplearning4j.nn.conf.layers.RnnOutputLayer;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.deeplearning4j.nn.weights.WeightInit;
 import org.deeplearning4j.optimize.listeners.ScoreIterationListener;
+import org.nd4j.config.ND4JEnvironmentVars;
 import org.nd4j.linalg.activations.Activation;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.api.ops.impl.indexaccum.IMax;
@@ -15,6 +16,8 @@ import org.nd4j.linalg.factory.Nd4j;
 import org.nd4j.linalg.indexing.NDArrayIndex;
 import org.nd4j.linalg.learning.config.RmsProp;
 import org.nd4j.linalg.lossfunctions.LossFunctions;
+import org.nd4j.nativeblas.NativeOpsHolder;
+import org.nd4j.nativeblas.Nd4jBlas;
 import org.nd4j.nativeblas.Nd4jCpu;
 
 import java.io.File;
@@ -29,10 +32,12 @@ public class MyRecurrentTrafficFineMasked {
     private int numCases=14332;
     private int largestSequence=12;
     private int numInput=57;
+    private int maxIterates=2;
+    private int trainPercent=70;
 
     public MyRecurrentTrafficFineMasked.TotalPredictionError totalPredictionError=new TotalPredictionError();
 
-    public boolean newRun=false;
+    public boolean newRun=true;
 
     private static final int HIDDEN_LAYER_WIDTH = 200;
     private static final int HIDDEN_LAYER_CONT = 4;
@@ -43,6 +48,9 @@ public class MyRecurrentTrafficFineMasked {
 
     MyRecurrentTrafficFineMasked()
     {
+        //System.out.println();
+        //Nd4jCpu.Environment.getInstance().setMaxMasterThreads(1);
+        //NativeOpsHolder.getInstance().getDeviceNativeOps().setOmpNumThreads(2);
         NeuralNetConfiguration.Builder builder = new NeuralNetConfiguration.Builder();
         builder.seed((int)(Math.random()*1000));
         builder.biasInit(1);
@@ -113,10 +121,10 @@ public class MyRecurrentTrafficFineMasked {
                             }
                         }catch(Exception ex)
                         {
-                            System.out.println(ex.toString());
-                            System.out.println(lastCase);
-                            System.out.println(row);
-                            System.out.println(j);
+                            //System.out.println(ex.toString());
+                            //System.out.println(lastCase);
+                            //System.out.println(row);
+                            //System.out.println(j);
                         }
 
                     }
@@ -129,8 +137,8 @@ public class MyRecurrentTrafficFineMasked {
             e.printStackTrace();
         }
 
-        System.out.println(input);
-        System.out.println(labels);
+        //System.out.println(input);
+        //System.out.println(labels);
 
 //        for(int caseId=0;caseId<5;caseId++) {
 //            for (int rowId = 0; rowId < input.size(1); rowId++) {
@@ -140,15 +148,25 @@ public class MyRecurrentTrafficFineMasked {
 //            }
 //        }
 
-        INDArray labelMask = generateMask(labels);
-        INDArray inputMask = generateMask(input);
+        int trainingSize=(int)Math.floor((numCases+1)*(trainPercent/100f));
 
-        input=normalize(input);
-        labels=normalize(labels);
+        INDArray trainingInput = input.get(NDArrayIndex.interval(0, trainingSize), NDArrayIndex.all(), NDArrayIndex.all());
+        INDArray testingInput = input.get(NDArrayIndex.interval(trainingSize+1, numCases + 1), NDArrayIndex.all(), NDArrayIndex.all());
 
-        System.out.println(labelMask);
-        System.out.println(input);
-        System.out.println(labels);
+        INDArray trainingLabels = labels.get(NDArrayIndex.interval(0, trainingSize), NDArrayIndex.all(), NDArrayIndex.all());
+        INDArray testingLabels = labels.get(NDArrayIndex.interval(trainingSize+1, numCases + 1), NDArrayIndex.all(), NDArrayIndex.all());
+
+        INDArray labelMask = generateMask(trainingLabels);
+        INDArray inputMask = generateMask(trainingInput);
+
+        trainingInput=normalize(trainingInput);
+        testingInput=normalize(testingInput);
+        trainingLabels=normalize(trainingLabels);
+        testingLabels=normalize(testingLabels);
+
+        //System.out.println(labelMask);
+        //System.out.println(input);
+        //System.out.println(labels);
 
 //        for(int caseId=0;caseId<5;caseId++) {
 //            for (int rowId = 0; rowId < input.size(1); rowId++) {
@@ -158,7 +176,7 @@ public class MyRecurrentTrafficFineMasked {
 //            }
 //        }
 
-        DataSet trainingData = new DataSet(input, labels);
+        //DataSet trainingData = new DataSet(input, labels);
 
 
         // ParallelWrapper will take care of load balancing between GPUs.
@@ -186,14 +204,17 @@ public class MyRecurrentTrafficFineMasked {
 
         if(newRun==true)
         {
-            for (int epoch = 0; epoch < 300; epoch++) {
+            long startTime = System.currentTimeMillis();
+            for (int epoch = 0; epoch < maxIterates; epoch++) {
                 System.out.println("Epoch " + epoch);
 
-                net.fit(input,labels,inputMask,labelMask);
+                net.fit(trainingInput,trainingLabels,inputMask,labelMask);
 //                net.fit(trainingData);
 //            wrapper.fit(data);
-                System.out.print("\n");
+                //System.out.print("\n");
             }
+            long endTime = System.currentTimeMillis();
+            System.out.println("Training time: "+ (endTime-startTime)/1000);
 
             //Save the model
             File locationToSave = new File("MyMultiLayerNetworkMasked.zip");      //Where to save the network. Note: the file is in .zip format - can be opened externally
@@ -214,26 +235,21 @@ public class MyRecurrentTrafficFineMasked {
         }
 
 
-
-
-
-
-
-        for(int i=0;i<numCases;i++)
+        for(int i=0;i<numCases-trainingSize;i++)
         {
             INDArray output=null;
             int lastKnownEvent=-1;
             net.rnnClearPreviousState();
             for(int j=0;j<Math.round((transactionLengths.get(i)+1)*knownTransactions);j++)
             {
-                INDArray test = to3DMatrix(input.get(NDArrayIndex.point(i), NDArrayIndex.all(), NDArrayIndex.point(j)),numInput);
+                INDArray test = to3DMatrix(testingInput.get(NDArrayIndex.point(i), NDArrayIndex.all(), NDArrayIndex.point(j)),numInput);
                 output = net.rnnTimeStep(test);
                 if(j==Math.round((transactionLengths.get(i)+1)*knownTransactions)-1)
                 {
                     lastKnownEvent=j;
                 }
             }
-            INDArray future = input.get(NDArrayIndex.interval(i,i+1), NDArrayIndex.all(), NDArrayIndex.interval(lastKnownEvent+1,transactionLengths.get(i)+1));
+            INDArray future = testingInput.get(NDArrayIndex.interval(i,i+1), NDArrayIndex.all(), NDArrayIndex.interval(lastKnownEvent+1,transactionLengths.get(i)+1));
             CasePredictionError caseError = predict(net, future, output, numInput);
 //            System.out.println(caseError.toString());
             totalPredictionError.caseErrors.add(caseError);
@@ -261,7 +277,7 @@ public class MyRecurrentTrafficFineMasked {
 
             if(newTransaction.getInt(0,12,0)==1)
             {
-                System.out.println("End observed");
+                //System.out.println("End observed");
                 break;
             }
 
@@ -655,10 +671,10 @@ public class MyRecurrentTrafficFineMasked {
         INDArray output=input.dup();
         for(int caseId=0;caseId<input.size(0);caseId++)
         {
-            if(caseId%1000==0)
-            {
-                System.out.println(caseId);
-            }
+            //if(caseId%1000==0)
+            //{
+                //System.out.println(caseId);
+            //}
 
             for(int rowId=0;rowId<input.size(1);rowId++)
             {

@@ -24,6 +24,7 @@ public class NetTrainDialog extends javax.swing.JDialog {
         super(passed_parent, modal);
         parent=(MainFrame)passed_parent;
         initComponents();
+        jSpinner2.setModel(new javax.swing.SpinnerNumberModel(1, 1, Runtime.getRuntime().availableProcessors(), 1));
     }
 
     /**
@@ -43,9 +44,10 @@ public class NetTrainDialog extends javax.swing.JDialog {
         jList2 = new javax.swing.JList<>();
         trainButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
         jLabel2 = new javax.swing.JLabel();
         jSpinner1 = new javax.swing.JSpinner();
+        jLabel3 = new javax.swing.JLabel();
+        jSpinner2 = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -111,12 +113,13 @@ public class NetTrainDialog extends javax.swing.JDialog {
 
         jLabel1.setText("Idle");
 
-        jCheckBox1.setSelected(true);
-        jCheckBox1.setText("Use parallel");
-
         jLabel2.setText("Num clusters or max cluster:");
 
         jSpinner1.setModel(new javax.swing.SpinnerNumberModel(10, 2, null, 1));
+
+        jLabel3.setText("Number of CPU threads:");
+
+        jSpinner2.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -132,14 +135,15 @@ public class NetTrainDialog extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(jCheckBox1)
-                            .addComponent(jLabel2))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
                         .addGap(0, 2, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSpinner1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(trainButton, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jSpinner1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jSpinner2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -154,7 +158,9 @@ public class NetTrainDialog extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(trainButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCheckBox1)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel1))
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -172,20 +178,20 @@ public class NetTrainDialog extends javax.swing.JDialog {
         if (parent.isRandomTrainSimpleNetCheckBox.isSelected()) {
             jLabel1.setText("Running");
             sampledDataSet = parent.allData.dataSet.randomSample((float) parent.trainPercentSimpleNetSpinner.getValue());
-            parent.allData.simpleNet.trainNet(sampledDataSet,jList1.getSelectedValue(),jList2.getSelectedValue(),(int)jSpinner1.getValue(),jCheckBox1.isSelected());
+            parent.allData.simpleNet.trainNet(sampledDataSet,jList1.getSelectedValue(),jList2.getSelectedValue(),(int)jSpinner1.getValue(),(int)jSpinner2.getValue());
         } else {
             jLabel1.setText("Running");
             sampledDataSet = parent.allData.dataSet.linearSample((float) parent.trainPercentSimpleNetSpinner.getValue(), !parent.isFromBeginSimpleNetTrainCheckBox.isSelected());
-            parent.allData.simpleNet.trainNet(sampledDataSet,jList1.getSelectedValue(),jList2.getSelectedValue(),(int)jSpinner1.getValue(),jCheckBox1.isSelected());
+            parent.allData.simpleNet.trainNet(sampledDataSet,jList1.getSelectedValue(),jList2.getSelectedValue(),(int)jSpinner1.getValue(),(int)jSpinner2.getValue());
         }
         this.dispose();
     }//GEN-LAST:event_trainButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JList<String> jList1;
     private javax.swing.JList<String> jList2;
     private javax.swing.JPanel jPanel1;
@@ -193,6 +199,7 @@ public class NetTrainDialog extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSpinner jSpinner1;
+    private javax.swing.JSpinner jSpinner2;
     private javax.swing.JButton trainButton;
     // End of variables declaration//GEN-END:variables
 }

@@ -41,7 +41,7 @@ public class Simulator {
                 passedFixedDataSets.add(fillingDataSet.deepClone());
                 fillingDataSet=allDataSet.emptyClone();
                 sn=new SimpleNet();
-                sn.trainNet(passedFixedDataSets.get(passedFixedDataSets.size()-1),"Naive bayes","Canopy",10,true);//NOT FLEXIBLE
+                sn.trainNet(passedFixedDataSets.get(passedFixedDataSets.size()-1),"Naive bayes","Canopy",10,8);//NOT FLEXIBLE
             }else{
                 fillingDataSet.myFullCases.add(allDataSet.myFullCases.get(i).deepClone());
                 fillingDataSet.myTimedFullCases.add(allDataSet.myTimedFullCases.get(i).deepClone());

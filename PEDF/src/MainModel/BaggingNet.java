@@ -29,7 +29,7 @@ public class BaggingNet implements Serializable {
         netDates = new Date[dataSets.length];
         for (int i = 0; i < dataSets.length; i++) {
             SimpleNet tempNet = new SimpleNet();
-            tempNet.trainNet(dataSets[i],"Naive bayes","Canopy",10,true);//NOT FLEXIBLE
+            tempNet.trainNet(dataSets[i],"Naive bayes","Canopy",10,8);//NOT FLEXIBLE
             nets.add(tempNet);
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss.sss");
             formatter.setTimeZone(TimeZone.getTimeZone("GMT"));

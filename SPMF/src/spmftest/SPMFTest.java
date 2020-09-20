@@ -42,16 +42,21 @@ public class SPMFTest {
 
     double knownSeqPercentage = 90;
     int maxPredictionLength = 10;
-    int numCPUs = 15;
+    int numCPUs = 14;
 
     SPMFTest() {
         try {
-            runCPTPlus();
-            runDG();
-            runPPM();
-            runAKOM();
-//            runTDAG();
-            runLZ78();
+            String inputPath = "roadTrafficFinesLogSPMF_DATA_50000.csv";
+            SequenceDatabase dataset = new SequenceDatabase();
+            dataset.loadFileSPMFFormat(inputPath, Integer.MAX_VALUE, 0, Integer.MAX_VALUE);
+            SequenceDatabase segmentedDataset[]=sampleFromBegining(dataset,70);
+            
+            runCPTPlus(segmentedDataset[0],segmentedDataset[1]);
+            runDG(segmentedDataset[0],segmentedDataset[1]);
+            runPPM(segmentedDataset[0],segmentedDataset[1]);
+            runAKOM(segmentedDataset[0],segmentedDataset[1]);
+//            runTDAG(segmentedDataset[0],segmentedDataset[1]);
+            runLZ78(segmentedDataset[0],segmentedDataset[1]);
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(SPMFTest.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -66,156 +71,88 @@ public class SPMFTest {
 //        }
     }
 
-    public void runLZ78() throws UnsupportedEncodingException, IOException {
-        String inputPath = "roadTrafficFinesLogSPMF_DATA_50000.csv";
-
-        SequenceDatabase trainingSet = new SequenceDatabase();
-        trainingSet.loadFileSPMFFormat(inputPath, Integer.MAX_VALUE, 0, Integer.MAX_VALUE);
-
-//        // Print the training sequences to the console
-//        System.out.println("--- Training sequences ---");
-//        for (Sequence sequence : trainingSet.getSequences()) {
-//            System.out.println(sequence.toString());
-//        }
-//        System.out.println();
-//
-//        // Print statistics about the training sequences
-//        SequenceStatsGenerator.prinStats(trainingSet, " training sequences ");
-
-        // Train the prediction model
+    public void runLZ78(SequenceDatabase train, SequenceDatabase test) throws UnsupportedEncodingException, IOException {
+        long startTime=System.currentTimeMillis();
         LZ78Predictor predictionModel = new LZ78Predictor("LZ78");
-        predictionModel.Train(trainingSet.getSequences());
+        predictionModel.Train(train.getSequences());
+        long endTime=System.currentTimeMillis();
 
-        PredictionSequences predictions=getPredictions(predictionModel,trainingSet);
+        PredictionSequences predictions=getPredictions(predictionModel,test);
 
+        System.out.println("\\/\\/\\/\\/");
         System.out.println("Sum event inconformity LZ78: " + getSumError(predictions.knownSeq, predictions.predictedSeq, predictions.realSeq));
+        System.out.println("Time to generate and train the net(s): "+(endTime-startTime)/1000f);
+        System.out.println("^^^^");
     }
 
-    public void runTDAG() throws UnsupportedEncodingException, IOException {
-        String inputPath = "roadTrafficFinesLogSPMF_DATA_50000.csv";
-
-        SequenceDatabase trainingSet = new SequenceDatabase();
-        trainingSet.loadFileSPMFFormat(inputPath, Integer.MAX_VALUE, 0, Integer.MAX_VALUE);
-
-//        // Print the training sequences to the console
-//        System.out.println("--- Training sequences ---");
-//        for (Sequence sequence : trainingSet.getSequences()) {
-//            System.out.println(sequence.toString());
-//        }
-//        System.out.println();
-//
-//        // Print statistics about the training sequences
-//        SequenceStatsGenerator.prinStats(trainingSet, " training sequences ");
-
-        // Train the prediction model
+    public void runTDAG(SequenceDatabase train, SequenceDatabase test) throws UnsupportedEncodingException, IOException {
+        long startTime=System.currentTimeMillis();
         TDAGPredictor predictionModel = new TDAGPredictor("TDAG");
-        predictionModel.Train(trainingSet.getSequences());
+        predictionModel.Train(train.getSequences());
+        long endTime=System.currentTimeMillis();
 
-        PredictionSequences predictions=getPredictions(predictionModel,trainingSet);
+        PredictionSequences predictions=getPredictions(predictionModel,test);
 
+        System.out.println("\\/\\/\\/\\/");
         System.out.println("Sum event inconformity TDAG: " + getSumError(predictions.knownSeq, predictions.predictedSeq, predictions.realSeq));
+        System.out.println("Time to generate and train the net(s): "+(endTime-startTime)/1000f);
+        System.out.println("^^^^");
     }
 
-    public void runAKOM() throws UnsupportedEncodingException, IOException {
-        String inputPath = "roadTrafficFinesLogSPMF_DATA_50000.csv";
-
-        SequenceDatabase trainingSet = new SequenceDatabase();
-        trainingSet.loadFileSPMFFormat(inputPath, Integer.MAX_VALUE, 0, Integer.MAX_VALUE);
-
-//        // Print the training sequences to the console
-//        System.out.println("--- Training sequences ---");
-//        for (Sequence sequence : trainingSet.getSequences()) {
-//            System.out.println(sequence.toString());
-//        }
-//        System.out.println();
-//
-//        // Print statistics about the training sequences
-//        SequenceStatsGenerator.prinStats(trainingSet, " training sequences ");
+    public void runAKOM(SequenceDatabase train, SequenceDatabase test) throws UnsupportedEncodingException, IOException {
 
         // The following line is to set optional parameters for the prediction model. 
         // Here we set the order of the markov model to 5.
         String optionalParameters = "order:4";
 
         // Train the prediction model
+        long startTime=System.currentTimeMillis();
         MarkovAllKPredictor predictionModel = new MarkovAllKPredictor("AKOM", optionalParameters);
-        predictionModel.Train(trainingSet.getSequences());
+        predictionModel.Train(train.getSequences());
+        long endTime=System.currentTimeMillis();
 
-        PredictionSequences predictions=getPredictions(predictionModel,trainingSet);
+        PredictionSequences predictions=getPredictions(predictionModel,test);
 
+        System.out.println("\\/\\/\\/\\/");
         System.out.println("Sum event inconformity AKOM All-k Order Markov: " + getSumError(predictions.knownSeq, predictions.predictedSeq, predictions.realSeq));
+        System.out.println("Time to generate and train the net(s): "+(endTime-startTime)/1000f);
+        System.out.println("^^^^");
     }
 
-    public void runPPM() throws UnsupportedEncodingException, IOException {
-        String inputPath = "roadTrafficFinesLogSPMF_DATA_50000.csv";
-
-        SequenceDatabase trainingSet = new SequenceDatabase();
-        trainingSet.loadFileSPMFFormat(inputPath, Integer.MAX_VALUE, 0, Integer.MAX_VALUE);
-
-//        // Print the training sequences to the console
-//        System.out.println("--- Training sequences ---");
-//        for (Sequence sequence : trainingSet.getSequences()) {
-//            System.out.println(sequence.toString());
-//        }
-//        System.out.println();
-//
-//        // Print statistics about the training sequences
-//        SequenceStatsGenerator.prinStats(trainingSet, " training sequences ");
-
+    public void runPPM(SequenceDatabase train, SequenceDatabase test) throws UnsupportedEncodingException, IOException {
         // Train the prediction model
+        long startTime=System.currentTimeMillis();
         MarkovFirstOrderPredictor predictionModel = new MarkovFirstOrderPredictor("PPM");
-        predictionModel.Train(trainingSet.getSequences());
+        predictionModel.Train(train.getSequences());
+        long endTime=System.currentTimeMillis();
 
-        PredictionSequences predictions=getPredictions(predictionModel,trainingSet);
+        PredictionSequences predictions=getPredictions(predictionModel,test);
 
+        System.out.println("\\/\\/\\/\\/");
         System.out.println("Sum event inconformity PPM markovian sequence prediction: " + getSumError(predictions.knownSeq, predictions.predictedSeq, predictions.realSeq));
+        System.out.println("Time to generate and train the net(s): "+(endTime-startTime)/1000f);
+        System.out.println("^^^^");
     }
 
-    public void runDG() throws UnsupportedEncodingException, IOException {
-        String inputPath = "roadTrafficFinesLogSPMF_DATA_50000.csv";
-
-        SequenceDatabase trainingSet = new SequenceDatabase();
-        trainingSet.loadFileSPMFFormat(inputPath, Integer.MAX_VALUE, 0, Integer.MAX_VALUE);
-
-//        // Print the training sequences to the console
-//        System.out.println("--- Training sequences ---");
-//        for (Sequence sequence : trainingSet.getSequences()) {
-//            System.out.println(sequence.toString());
-//        }
-//        System.out.println();
-//
-//        // Print statistics about the training sequences
-//        SequenceStatsGenerator.prinStats(trainingSet, " training sequences ");
-
+    public void runDG(SequenceDatabase train, SequenceDatabase test) throws UnsupportedEncodingException, IOException {
         // The following line is to set optional parameters for the prediction model. 
         String optionalParameters = "lookahead:2";
 
         // Train the prediction model
+        long startTime=System.currentTimeMillis();
         DGPredictor predictionModel = new DGPredictor("DG", optionalParameters);
-        predictionModel.Train(trainingSet.getSequences());
+        predictionModel.Train(train.getSequences());
+        long endTime=System.currentTimeMillis();
 
-        PredictionSequences predictions=getPredictions(predictionModel,trainingSet);
+        PredictionSequences predictions=getPredictions(predictionModel,test);
 
+        System.out.println("\\/\\/\\/\\/");
         System.out.println("Sum event inconformity DG: " + getSumError(predictions.knownSeq, predictions.predictedSeq, predictions.realSeq));
+        System.out.println("Time to generate and train the net(s): "+(endTime-startTime)/1000f);
+        System.out.println("^^^^");
     }
 
-    public void runCPTPlus() throws UnsupportedEncodingException, IOException {
-        // Load the set of training sequences
-//		String inputPath = fileToPath("Data.txt");
-        String inputPath = "roadTrafficFinesLogSPMF_DATA_50000.csv";
-
-        SequenceDatabase trainingSet = new SequenceDatabase();
-        trainingSet.loadFileSPMFFormat(inputPath, Integer.MAX_VALUE, 0, Integer.MAX_VALUE);
-
-//        // Print the training sequences to the console
-//        System.out.println("--- Training sequences ---");
-//        for (Sequence sequence : trainingSet.getSequences()) {
-//            System.out.println(sequence.toString());
-//        }
-//        System.out.println();
-//
-//        // Print statistics about the training sequences
-//        SequenceStatsGenerator.prinStats(trainingSet, " training sequences ");
-
+    public void runCPTPlus(SequenceDatabase train, SequenceDatabase test) throws UnsupportedEncodingException, IOException {
         // The following line is to set optional parameters for the prediction model. 
         // We want to 
         // activate the CCF and CBS strategies which generally improves its performance (see paper)
@@ -231,12 +168,17 @@ public class SPMFTest {
         //  noiseRatio:1.0  -->   ratio of items to remove in a sequence per level (see paper). 
 
         // Train the prediction model
+        long startTime=System.currentTimeMillis();
         CPTPlusPredictor predictionModel = new CPTPlusPredictor("CPT+", optionalParameters);
-        predictionModel.Train(trainingSet.getSequences());
+        predictionModel.Train(train.getSequences());
+        long endTime=System.currentTimeMillis();
 
-        PredictionSequences predictions=getPredictions(predictionModel,trainingSet);
-
+        PredictionSequences predictions=getPredictions(predictionModel,test);
+        
+        System.out.println("\\/\\/\\/\\/");
         System.out.println("Sum event inconformity CPT+: " + getSumError(predictions.knownSeq, predictions.predictedSeq, predictions.realSeq));
+        System.out.println("Time to generate and train the net(s): "+(endTime-startTime)/1000f);
+        System.out.println("^^^^");
     }
     
     private PredictionSequences getPredictions(Predictor predictionModel, SequenceDatabase trainingSet)
@@ -270,6 +212,11 @@ public class SPMFTest {
                             Sequence predictedTempSeq = new Sequence(seq);
                             for (int pred = 0; pred < maxPredictionLength; pred++) {
                                 Sequence thePrediction = predictionModel.Predict(sequence);
+                                if(thePrediction.size()==0)
+                                {
+//                                    System.out.println("Empty prediction, breaking!");
+                                    break;
+                                }
                                 sequence.addItem(new Item(thePrediction.get(0).val));
                                 predictedTempSeq.addItem(new Item(thePrediction.get(0).val));
                                 if (thePrediction.get(0).val == 13) {
@@ -318,6 +265,11 @@ public class SPMFTest {
                 Sequence predictedTempSeq = new Sequence(seq);
                 for (int pred = 0; pred < maxPredictionLength; pred++) {
                     Sequence thePrediction = predictionModel.Predict(sequence);
+                    if(thePrediction.size()==0)
+                    {
+//                        System.out.println("Empty prediction, breaking!");
+                        break;
+                    }
                     sequence.addItem(new Item(thePrediction.get(0).val));
                     predictedTempSeq.addItem(new Item(thePrediction.get(0).val));
                     if (thePrediction.get(0).val == 13) {
@@ -325,7 +277,7 @@ public class SPMFTest {
                     }
                 }
                 predictedSeqList.add(new CustomSequence(predictedTempSeq));
-                System.out.println(seq + " from " + trainingSet.getSequences().size());
+                //System.out.println(seq + " from " + trainingSet.getSequences().size());
             }
             knownSeq.setSequences(knownSeqList);
             realSeq.setSequences(realSeqList);
@@ -393,6 +345,78 @@ public class SPMFTest {
         // print statistics
         algo.printStats();
 
+    }
+    
+    public double crossValidation(Predictor model, SequenceDatabase input, int k)
+    {
+        SequenceDatabase segmentedData[]= segmentSample(input,k);
+        for(int i=0;i<k;i++)
+        {
+            
+        }
+        return -1;
+    }
+    
+    public SequenceDatabase[] sampleFromBegining(SequenceDatabase input, int percent)
+    {
+        ArrayList<Sequence> samples=new ArrayList();
+        List<Sequence> source = input.getSequences();
+        SequenceDatabase output[]=new SequenceDatabase[2];
+        output[0]=new SequenceDatabase();
+        output[1]=new SequenceDatabase();
+        int maxValue=(int)(input.size()*(percent/100f));
+        for(int i=0;i<maxValue;i++)
+        {
+            samples.add(new Sequence(source.get(0)));
+            source.remove(0);
+        }
+        output[0].setSequences(samples);
+        output[1].setSequences(new ArrayList(source));
+        return output;
+    }
+    
+    public SequenceDatabase[] randomSample(SequenceDatabase input, int percent)
+    {
+        ArrayList<Sequence> samples=new ArrayList();
+        List<Sequence> source = input.getSequences();
+        SequenceDatabase output[]=new SequenceDatabase[2];
+        output[0]=new SequenceDatabase();
+        output[1]=new SequenceDatabase();
+        int maxValue=(int)(input.size()*(percent/100f));
+        for(int i=0;i<maxValue;i++)
+        {
+            int index=(int)(Math.random()*source.size());
+            samples.add(new Sequence(source.get(index)));
+            source.remove(index);
+        }
+        output[0].setSequences(samples);
+        output[1].setSequences(new ArrayList(source));
+        return output;
+    }
+    
+    public SequenceDatabase[] segmentSample(SequenceDatabase input, int k)
+    {
+        ArrayList<Sequence> samples=new ArrayList();
+        List<Sequence> source = input.getSequences();
+        
+        ArrayList<ArrayList<Sequence>> segmentLists=new ArrayList();
+        SequenceDatabase output[]=new SequenceDatabase[k];
+        for(int i=0;i<k;i++)
+        {
+            output[k]=new SequenceDatabase();
+            segmentLists.add(new ArrayList());
+        }
+        int segmentLength=(int)Math.floor(input.size()/k);
+        for(int i=0;i<input.size();i++)
+        {
+            int segmentIndex=(int)Math.floor(i/segmentLength);
+            segmentLists.get(segmentIndex).add(input.getSequences().get(i));
+        }
+        for(int i=0;i<k;i++)
+        {
+            output[i].setSequences(segmentLists.get(i));
+        }
+        return output;
     }
 
     public static String fileToPath(String filename)
