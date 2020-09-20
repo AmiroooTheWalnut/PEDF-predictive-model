@@ -5,3 +5,7 @@ There are two libraries to be compared with PEDF i.e. Deeplearning4j and SPMF.
  * The actual code is "MyRecurrentTrafficFineMasked.java".  
  * SPMF code is in directory ./SPMF/src/spmftest.  
  * PEDF code is inside a Netbeans project structure. The source code is inside "src" folder and the compiled code is in "dist" folder.  
+
+![alt text](https://github.com/AmiroooTheWalnut/PEDF-predictive-model/blob/master/PDEF_app.PNG?raw=true)  
+![alt text](https://github.com/AmiroooTheWalnut/PEDF-predictive-model/blob/master/PDEF_app1.PNG?raw=true)  
+![alt text](https://github.com/AmiroooTheWalnut/PEDF-predictive-model/blob/master/PDEF_app2.PNG?raw=true)  
