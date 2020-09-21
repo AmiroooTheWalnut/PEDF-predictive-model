@@ -32,17 +32,17 @@ public class MyRecurrentTrafficFineMasked {
     private int numCases=14332;
     private int largestSequence=12;
     private int numInput=57;
-    private int maxIterates=2;
+    private int maxIterates=100;
     private int trainPercent=70;
 
     public MyRecurrentTrafficFineMasked.TotalPredictionError totalPredictionError=new TotalPredictionError();
 
-    public boolean newRun=true;
+    public boolean newRun=false;
 
     private static final int HIDDEN_LAYER_WIDTH = 200;
     private static final int HIDDEN_LAYER_CONT = 4;
 
-    private double knownTransactions=0.9;
+    private double knownTransactions=0.2;
 
     private double[] normalizationInformation;
 
