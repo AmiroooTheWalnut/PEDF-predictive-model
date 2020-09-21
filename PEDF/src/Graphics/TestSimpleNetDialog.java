@@ -34,7 +34,7 @@ public class TestSimpleNetDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        testSimpleNetSlider = new javax.swing.JSlider();
+        testSimpleNetKnownSlider = new javax.swing.JSlider();
         jLabel4 = new javax.swing.JLabel();
         testPercentSpinner = new javax.swing.JSpinner();
         jLabel3 = new javax.swing.JLabel();
@@ -49,14 +49,28 @@ public class TestSimpleNetDialog extends javax.swing.JDialog {
         isFromBeginCheckBox = new javax.swing.JCheckBox();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        testButton1 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jSlider1 = new javax.swing.JSlider();
+        jLabel11 = new javax.swing.JLabel();
+        jSlider2 = new javax.swing.JSlider();
+        jLabel12 = new javax.swing.JLabel();
+        jSlider3 = new javax.swing.JSlider();
+        jLabel13 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        testSimpleNetSlider.setMaximum(99);
-        testSimpleNetSlider.setMinimum(1);
-        testSimpleNetSlider.addChangeListener(new javax.swing.event.ChangeListener() {
+        testSimpleNetKnownSlider.setMaximum(99);
+        testSimpleNetKnownSlider.setMinimum(1);
+        testSimpleNetKnownSlider.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                testSimpleNetSliderStateChanged(evt);
+                testSimpleNetKnownSliderStateChanged(evt);
             }
         });
 
@@ -104,6 +118,167 @@ public class TestSimpleNetDialog extends javax.swing.JDialog {
 
         jLabel7.setText("No test");
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        testButton1.setText("Test different known cases");
+        testButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                testButton1ActionPerformed(evt);
+            }
+        });
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Known percentage", "Event error", "Duration error", "Feature error"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(jTable1);
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel8.setText("Test start percent:");
+
+        jLabel9.setText("Test step percent:");
+
+        jLabel10.setText("Test end percent:");
+
+        jSlider1.setMajorTickSpacing(1);
+        jSlider1.setMaximum(99);
+        jSlider1.setMinimum(1);
+        jSlider1.setMinorTickSpacing(1);
+        jSlider1.setValue(20);
+        jSlider1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSlider1StateChanged(evt);
+            }
+        });
+
+        jLabel11.setText("20%");
+
+        jSlider2.setMajorTickSpacing(1);
+        jSlider2.setMaximum(99);
+        jSlider2.setMinimum(1);
+        jSlider2.setMinorTickSpacing(1);
+        jSlider2.setValue(10);
+        jSlider2.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSlider2StateChanged(evt);
+            }
+        });
+
+        jLabel12.setText("10%");
+
+        jSlider3.setMajorTickSpacing(1);
+        jSlider3.setMinimum(2);
+        jSlider3.setMinorTickSpacing(1);
+        jSlider3.setValue(90);
+        jSlider3.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSlider3StateChanged(evt);
+            }
+        });
+
+        jLabel13.setText("90%");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSlider1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel11))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSlider3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel13))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSlider2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel12)))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel11))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel12))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel13)
+                        .addContainerGap(22, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jSlider3, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(10, 10, 10))))
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(testButton1))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 557, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
+                        .addComponent(testButton1)))
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -111,31 +286,35 @@ public class TestSimpleNetDialog extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(testButton)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel3)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(testPercentSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(testSimpleNetSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(isRandomDrawnCheckBox)
-                    .addComponent(isSortedByDateCheckBox)
-                    .addComponent(isFromBeginCheckBox)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 677, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(testButton)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel3)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(testPercentSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(testSimpleNetKnownSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(isRandomDrawnCheckBox)
+                            .addComponent(isSortedByDateCheckBox)
+                            .addComponent(isFromBeginCheckBox)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
@@ -149,7 +328,7 @@ public class TestSimpleNetDialog extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(testSimpleNetSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(testSimpleNetKnownSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -161,32 +340,32 @@ public class TestSimpleNetDialog extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel7)
-                        .addGap(0, 11, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1))
+                        .addComponent(jLabel7)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void testSimpleNetSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_testSimpleNetSliderStateChanged
+    private void testSimpleNetKnownSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_testSimpleNetKnownSliderStateChanged
         // TODO add your handling code here:
-        jLabel5.setText(testSimpleNetSlider.getValue() + "%");
-    }//GEN-LAST:event_testSimpleNetSliderStateChanged
+        jLabel5.setText(testSimpleNetKnownSlider.getValue() + "%");
+    }//GEN-LAST:event_testSimpleNetKnownSliderStateChanged
 
     private void testButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testButtonActionPerformed
         // TODO add your handling code here:
-        TestResult testResults=null;
+        TestResult testResults = null;
         DataSet sampledDataSet;
         if (isRandomDrawnCheckBox.isSelected()) {
             sampledDataSet = myParent.allData.dataSet.randomSample((float) testPercentSpinner.getValue());
-            testResults = myParent.allData.simpleNet.testNet(sampledDataSet, testSimpleNetSlider.getValue());
-        }else{
-            sampledDataSet = myParent.allData.dataSet.linearSample((float) testPercentSpinner.getValue(), !isFromBeginCheckBox.isSelected(),isSortedByDateCheckBox.isSelected());
-            testResults = myParent.allData.simpleNet.testNet(sampledDataSet, testSimpleNetSlider.getValue());
+            testResults = myParent.allData.simpleNet.testNet(sampledDataSet, testSimpleNetKnownSlider.getValue());
+        } else {
+            sampledDataSet = myParent.allData.dataSet.linearSample((float) testPercentSpinner.getValue(), !isFromBeginCheckBox.isSelected(), isSortedByDateCheckBox.isSelected());
+            testResults = myParent.allData.simpleNet.testNet(sampledDataSet, testSimpleNetKnownSlider.getValue());
         }
-        
+
         jTextArea1.setText(testResults.getRestultsInString());
         jLabel2.setText(String.valueOf(testResults.sumEventError));
         jLabel7.setText(String.valueOf(testResults.sumDurationError));
@@ -198,15 +377,63 @@ public class TestSimpleNetDialog extends javax.swing.JDialog {
 
     private void isRandomDrawnCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isRandomDrawnCheckBoxActionPerformed
         // TODO add your handling code here:
-        if(isRandomDrawnCheckBox.isSelected())
-        {
+        if (isRandomDrawnCheckBox.isSelected()) {
             isSortedByDateCheckBox.setEnabled(false);
             isFromBeginCheckBox.setEnabled(false);
-        }else{
+        } else {
             isSortedByDateCheckBox.setEnabled(true);
             isFromBeginCheckBox.setEnabled(true);
         }
     }//GEN-LAST:event_isRandomDrawnCheckBoxActionPerformed
+
+    private void testButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testButton1ActionPerformed
+        // TODO add your handling code here:
+        int numRows=0;
+        for (int i = jSlider1.getValue(); i <= jSlider3.getValue(); i = i + jSlider2.getValue()){
+            numRows=numRows+1;
+        }
+        String[][] data = new String[numRows][4];
+        numRows=0;
+        for (int i = jSlider1.getValue(); i <= jSlider3.getValue(); i = i + jSlider2.getValue()) {
+            TestResult testResults = null;
+            DataSet sampledDataSet;
+            if (isRandomDrawnCheckBox.isSelected()) {
+                sampledDataSet = myParent.allData.dataSet.randomSample((float) testPercentSpinner.getValue());
+                testResults = myParent.allData.simpleNet.testNet(sampledDataSet, i);
+            } else {
+                sampledDataSet = myParent.allData.dataSet.linearSample((float) testPercentSpinner.getValue(), !isFromBeginCheckBox.isSelected(), isSortedByDateCheckBox.isSelected());
+                testResults = myParent.allData.simpleNet.testNet(sampledDataSet, i);
+            }
+            data[numRows][0]=String.valueOf(i+"%");
+            data[numRows][1]=String.valueOf(testResults.sumEventError);
+            data[numRows][2]=String.valueOf(testResults.sumDurationError);
+            data[numRows][3]=String.valueOf(testResults.sumFeatureError);
+            numRows=numRows+1;
+        }
+        ExcelAdapter excelAdapter = new ExcelAdapter(jTable1);
+        
+        String[] headers = new String[4];
+        headers[0] = "Known percentage";
+        headers[1] = "Event error";
+        headers[2] = "Duration error";
+        headers[3] = "Feature error";
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(data, headers));
+    }//GEN-LAST:event_testButton1ActionPerformed
+
+    private void jSlider1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider1StateChanged
+        // TODO add your handling code here:
+        jLabel11.setText(jSlider1.getValue() + "%");
+    }//GEN-LAST:event_jSlider1StateChanged
+
+    private void jSlider2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider2StateChanged
+        // TODO add your handling code here:
+        jLabel12.setText(jSlider2.getValue() + "%");
+    }//GEN-LAST:event_jSlider2StateChanged
+
+    private void jSlider3StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider3StateChanged
+        // TODO add your handling code here:
+        jLabel13.setText(jSlider3.getValue() + "%");
+    }//GEN-LAST:event_jSlider3StateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -214,16 +441,30 @@ public class TestSimpleNetDialog extends javax.swing.JDialog {
     private javax.swing.JCheckBox isRandomDrawnCheckBox;
     private javax.swing.JCheckBox isSortedByDateCheckBox;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JSlider jSlider1;
+    private javax.swing.JSlider jSlider2;
+    private javax.swing.JSlider jSlider3;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JButton testButton;
+    private javax.swing.JButton testButton1;
     private javax.swing.JSpinner testPercentSpinner;
-    private javax.swing.JSlider testSimpleNetSlider;
+    private javax.swing.JSlider testSimpleNetKnownSlider;
     // End of variables declaration//GEN-END:variables
 }
