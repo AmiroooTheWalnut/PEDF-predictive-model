@@ -40,9 +40,9 @@ public class SPMFTest {
 
     public boolean isParallel = true;
 
-    double knownSeqPercentage = 90;
+    double knownSeqPercentage = 50;
     int maxPredictionLength = 10;
-    int numCPUs = 14;
+    int numCPUs = 12;
 
     SPMFTest() {
         try {

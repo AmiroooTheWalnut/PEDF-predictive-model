@@ -2,16 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/F:/My_software_develops/BaggingPetriNetProject/PEDF_simple/PEDF/src/Data/DataSet.java</file>
-            <file>file:/F:/My_software_develops/BaggingPetriNetProject/PEDF_simple/PEDF/src/MainModel/BaggingNet.java</file>
-            <file>file:/F:/My_software_develops/BaggingPetriNetProject/PEDF_simple/PEDF/src/Graphics/ExcelAdapter.java</file>
-            <file>file:/F:/My_software_develops/BaggingPetriNetProject/PEDF_simple/PEDF/src/MainModel/SimpleNet.java</file>
-            <file>file:/F:/My_software_develops/BaggingPetriNetProject/PEDF_simple/PEDF/src/Graphics/MainFrame.java</file>
-            <file>file:/F:/My_software_develops/BaggingPetriNetProject/PEDF_simple/PEDF/src/MainModel/Simulator.java</file>
-            <file>file:/F:/My_software_develops/BaggingPetriNetProject/PEDF_simple/PEDF/src/Graphics/NetTrainDialog.java</file>
-            <file>file:/F:/My_software_develops/BaggingPetriNetProject/PEDF_simple/PEDF/src/MainModel/TestResult.java</file>
-            <file>file:/F:/My_software_develops/BaggingPetriNetProject/PEDF_simple/PEDF/src/Graphics/TestSimpleNetDialog.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

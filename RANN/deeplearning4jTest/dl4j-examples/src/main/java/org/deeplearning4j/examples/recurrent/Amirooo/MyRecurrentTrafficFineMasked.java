@@ -37,12 +37,12 @@ public class MyRecurrentTrafficFineMasked {
 
     public MyRecurrentTrafficFineMasked.TotalPredictionError totalPredictionError=new TotalPredictionError();
 
-    public boolean newRun=false;
+    public boolean newRun=true;
 
     private static final int HIDDEN_LAYER_WIDTH = 200;
     private static final int HIDDEN_LAYER_CONT = 4;
 
-    private double knownTransactions=0.2;
+    private double knownTransactions=0.5;
 
     private double[] normalizationInformation;
 
